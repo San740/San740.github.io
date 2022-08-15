@@ -94,7 +94,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/San740/tuchuang/main/1/%E7%99%BB%E5%BD%95%E9%A1%B5%E9%9D%A2%E7%88%86%E7%A0%B4%E4%BF%AE%E5%A4%8D1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/San740/tuchuang/main/1/%E7%99%BB%E5%BD%95%E9%A1%B5%E9%9D%A2%E7%88%86%E7%A0%B4%E4%BF%AE%E5%A4%8D2.png">
 <meta property="article:published_time" content="2022-08-15T13:15:44.000Z">
-<meta property="article:modified_time" content="2022-08-15T14:53:19.885Z">
+<meta property="article:modified_time" content="2022-08-15T15:27:35.816Z">
 <meta property="article:author" content="san.wei">
 <meta property="article:tag" content="代码审计">
 <meta name="twitter:card" content="summary">
@@ -114,7 +114,7 @@
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     duoshuo: {
       userId: '0',
-      author: '博主'
+      author: 'Author'
     },
     algolia: {
       applicationID: '',
@@ -194,7 +194,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            首页
+            Home
           </a>
         </li>
       
@@ -204,7 +204,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            归档
+            Archives
           </a>
         </li>
       
@@ -268,9 +268,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发表于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-08-15T21:15:44+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-08-15T21:15:44+08:00">
                 2022-08-15
               </time>
             
@@ -376,9 +376,9 @@
 </ul>
 <h3 id="审计报告-7"><a href="#审计报告-7" class="headerlink" title="审计报告"></a>审计报告</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">1、漏洞所在位置，漏洞描述</span><br><span class="line">用户留言messageSub.php的第八行存在</span><br><span class="line">$query = &quot;INSERT INTO comment(user_name,comment_text,pub_date) VALUES (&#x27;&#123;$_SESSION[&#x27;username&#x27;]&#125;&#x27;,&#x27;$clean_message&#x27;,now())&quot;;</span><br><span class="line"></span><br><span class="line">2、漏洞危害、利用</span><br><span class="line"> 存在sql注入，可以通过sql注入，实现通过其他人的用户名来留言</span><br><span class="line"> 登录账户留言板输入</span><br><span class="line">  VALUES (&#x27;test\&#x27;,&#x27;,1,2)#&#x27;,now())&quot;;</span><br><span class="line"> ,1,2),(1,2,3)#</span><br><span class="line"> ,1,2),(0xe98791e9be99,0xe98791e9be99e588b0e6ada4e4b880e6b8b8,3)#</span><br><span class="line">3、修复建议</span><br><span class="line">	sql注入修复的方法</span><br><span class="line">	对用户名进行限制和过滤，不允许用户名中存在特殊字符如 ‘ 和 \ 等</span><br><span class="line">	绑定变量，使用预编译语句预防SQL注入</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h2 id="09越权漏洞2"><a href="#09越权漏洞2" class="headerlink" title="09越权漏洞2"></a>09越权漏洞2</h2><h2 id="审计思路-8"><a href="#审计思路-8" class="headerlink" title="审计思路"></a>审计思路</h2><p>定向功能审计</p>
+<h2 id="09越权漏洞2"><a href="#09越权漏洞2" class="headerlink" title="09越权漏洞2"></a>09越权漏洞2</h2><h3 id="审计思路-8"><a href="#审计思路-8" class="headerlink" title="审计思路"></a>审计思路</h3><p>定向功能审计</p>
 <p><img src="https://raw.githubusercontent.com/San740/tuchuang/main/1/%E8%B6%8A%E6%9D%83%E6%BC%8F%E6%B4%9E02.png" alt="越权漏洞02"></p>
-<h2 id="审计报告-8"><a href="#审计报告-8" class="headerlink" title="审计报告"></a>审计报告</h2><ul>
+<h3 id="审计报告-8"><a href="#审计报告-8" class="headerlink" title="审计报告"></a>审计报告</h3><ul>
 <li><p>1、漏洞所在位置，漏洞描述</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">审计代码user/updateName.php的第11，12行</span><br><span class="line"></span><br><span class="line">$clean_username = clean_input($_POST[&#x27;username&#x27;]);</span><br><span class="line">$clean_user_id = clean_input($_POST[&#x27;id&#x27;]);</span><br></pre></td></tr></table></figure></li>
 <li><p>2、漏洞危害、利用</p>
@@ -493,10 +493,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
+            Table of Contents
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
+            Overview
           </li>
         </ul>
       
@@ -517,7 +517,7 @@
                 <a href="/archives/%20">
               
                   <span class="site-state-item-count">4</span>
-                  <span class="site-state-item-name">日志</span>
+                  <span class="site-state-item-name">posts</span>
                 </a>
               </div>
             
@@ -528,7 +528,7 @@
               <div class="site-state-item site-state-categories">
                 
                   <span class="site-state-item-count">2</span>
-                  <span class="site-state-item-name">分类</span>
+                  <span class="site-state-item-name">categories</span>
                 
               </div>
             
@@ -539,7 +539,7 @@
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
                   <span class="site-state-item-count">4</span>
-                  <span class="site-state-item-name">标签</span>
+                  <span class="site-state-item-name">tags</span>
                 </a>
               </div>
             
@@ -571,7 +571,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#01-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C"><span class="nav-number">1.</span> <span class="nav-text">01-命令执行</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%80%9D%E8%B7%AF"><span class="nav-number">1.1.</span> <span class="nav-text">审计思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A"><span class="nav-number">1.2.</span> <span class="nav-text">审计报告</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#02-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB"><span class="nav-number">2.</span> <span class="nav-text">02-文件包含</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%80%9D%E8%B7%AF-1"><span class="nav-number">2.1.</span> <span class="nav-text">审计思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A-1"><span class="nav-number">2.2.</span> <span class="nav-text">审计报告</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#03-%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96"><span class="nav-number">3.</span> <span class="nav-text">03-任意文件读取</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%80%9D%E8%B7%AF-2"><span class="nav-number">3.1.</span> <span class="nav-text">审计思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A-2"><span class="nav-number">3.2.</span> <span class="nav-text">审计报告</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#04-sql%E6%B3%A8%E5%85%A51"><span class="nav-number">4.</span> <span class="nav-text">04-sql注入1</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%80%9D%E8%B7%AF-3"><span class="nav-number">4.1.</span> <span class="nav-text">审计思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A-3"><span class="nav-number">4.2.</span> <span class="nav-text">审计报告</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#05-sql%E6%B3%A8%E5%85%A52"><span class="nav-number">5.</span> <span class="nav-text">05-sql注入2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%80%9D%E8%B7%AF-4"><span class="nav-number">5.1.</span> <span class="nav-text">审计思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A-4"><span class="nav-number">5.2.</span> <span class="nav-text">审计报告</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#06-XSS%E6%BC%8F%E6%B4%9E"><span class="nav-number">6.</span> <span class="nav-text">06-XSS漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%80%9D%E8%B7%AF-5"><span class="nav-number">6.1.</span> <span class="nav-text">审计思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A-5"><span class="nav-number">6.2.</span> <span class="nav-text">审计报告</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#07-%E5%AE%89%E8%A3%85%E9%97%AE%E9%A2%98"><span class="nav-number">7.</span> <span class="nav-text">07-安装问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%80%9D%E8%B7%AF-6"><span class="nav-number">7.1.</span> <span class="nav-text">审计思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A-6"><span class="nav-number">7.2.</span> <span class="nav-text">审计报告</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#08-%E8%B6%8A%E6%9D%83%E6%BC%8F%E6%B4%9E1"><span class="nav-number">8.</span> <span class="nav-text">08 越权漏洞1</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%80%9D%E8%B7%AF-7"><span class="nav-number">8.1.</span> <span class="nav-text">审计思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A-7"><span class="nav-number">8.2.</span> <span class="nav-text">审计报告</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#09%E8%B6%8A%E6%9D%83%E6%BC%8F%E6%B4%9E2"><span class="nav-number">9.</span> <span class="nav-text">09越权漏洞2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%80%9D%E8%B7%AF-8"><span class="nav-number">10.</span> <span class="nav-text">审计思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A-8"><span class="nav-number">11.</span> <span class="nav-text">审计报告</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-%E7%99%BB%E5%BD%95%E7%88%86%E7%A0%B4"><span class="nav-number">12.</span> <span class="nav-text">10 登录爆破</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%80%9D%E8%B7%AF-9"><span class="nav-number">12.1.</span> <span class="nav-text">审计思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A-9"><span class="nav-number">12.2.</span> <span class="nav-text">审计报告</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#01-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C"><span class="nav-number">1.</span> <span class="nav-text">01-命令执行</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%80%9D%E8%B7%AF"><span class="nav-number">1.1.</span> <span class="nav-text">审计思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A"><span class="nav-number">1.2.</span> <span class="nav-text">审计报告</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#02-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB"><span class="nav-number">2.</span> <span class="nav-text">02-文件包含</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%80%9D%E8%B7%AF-1"><span class="nav-number">2.1.</span> <span class="nav-text">审计思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A-1"><span class="nav-number">2.2.</span> <span class="nav-text">审计报告</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#03-%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96"><span class="nav-number">3.</span> <span class="nav-text">03-任意文件读取</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%80%9D%E8%B7%AF-2"><span class="nav-number">3.1.</span> <span class="nav-text">审计思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A-2"><span class="nav-number">3.2.</span> <span class="nav-text">审计报告</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#04-sql%E6%B3%A8%E5%85%A51"><span class="nav-number">4.</span> <span class="nav-text">04-sql注入1</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%80%9D%E8%B7%AF-3"><span class="nav-number">4.1.</span> <span class="nav-text">审计思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A-3"><span class="nav-number">4.2.</span> <span class="nav-text">审计报告</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#05-sql%E6%B3%A8%E5%85%A52"><span class="nav-number">5.</span> <span class="nav-text">05-sql注入2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%80%9D%E8%B7%AF-4"><span class="nav-number">5.1.</span> <span class="nav-text">审计思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A-4"><span class="nav-number">5.2.</span> <span class="nav-text">审计报告</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#06-XSS%E6%BC%8F%E6%B4%9E"><span class="nav-number">6.</span> <span class="nav-text">06-XSS漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%80%9D%E8%B7%AF-5"><span class="nav-number">6.1.</span> <span class="nav-text">审计思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A-5"><span class="nav-number">6.2.</span> <span class="nav-text">审计报告</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#07-%E5%AE%89%E8%A3%85%E9%97%AE%E9%A2%98"><span class="nav-number">7.</span> <span class="nav-text">07-安装问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%80%9D%E8%B7%AF-6"><span class="nav-number">7.1.</span> <span class="nav-text">审计思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A-6"><span class="nav-number">7.2.</span> <span class="nav-text">审计报告</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#08-%E8%B6%8A%E6%9D%83%E6%BC%8F%E6%B4%9E1"><span class="nav-number">8.</span> <span class="nav-text">08 越权漏洞1</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%80%9D%E8%B7%AF-7"><span class="nav-number">8.1.</span> <span class="nav-text">审计思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A-7"><span class="nav-number">8.2.</span> <span class="nav-text">审计报告</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#09%E8%B6%8A%E6%9D%83%E6%BC%8F%E6%B4%9E2"><span class="nav-number">9.</span> <span class="nav-text">09越权漏洞2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%80%9D%E8%B7%AF-8"><span class="nav-number">9.1.</span> <span class="nav-text">审计思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A-8"><span class="nav-number">9.2.</span> <span class="nav-text">审计报告</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-%E7%99%BB%E5%BD%95%E7%88%86%E7%A0%B4"><span class="nav-number">10.</span> <span class="nav-text">10 登录爆破</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%80%9D%E8%B7%AF-9"><span class="nav-number">10.1.</span> <span class="nav-text">审计思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%8A%A5%E5%91%8A-9"><span class="nav-number">10.2.</span> <span class="nav-text">审计报告</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -601,7 +601,7 @@
 </div>
 
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 
@@ -609,7 +609,7 @@
 
 
 
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
 
 
 
