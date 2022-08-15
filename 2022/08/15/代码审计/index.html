@@ -35,7 +35,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/San740/tuchuang/main/1/%E7%99%BB%E5%BD%95%E9%A1%B5%E9%9D%A2%E7%88%86%E7%A0%B4%E4%BF%AE%E5%A4%8D1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/San740/tuchuang/main/1/%E7%99%BB%E5%BD%95%E9%A1%B5%E9%9D%A2%E7%88%86%E7%A0%B4%E4%BF%AE%E5%A4%8D2.png">
 <meta property="article:published_time" content="2022-08-15T13:15:44.000Z">
-<meta property="article:modified_time" content="2022-08-15T15:27:35.816Z">
+<meta property="article:modified_time" content="2022-08-15T15:54:02.789Z">
 <meta property="article:author" content="san.wei">
 <meta property="article:tag" content="代码审计">
 <meta name="twitter:card" content="summary">
@@ -210,7 +210,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2022-08-15 21:15:44 / 修改时间：23:27:35" itemprop="dateCreated datePublished" datetime="2022-08-15T21:15:44+08:00">2022-08-15</time>
+      <time title="创建时间：2022-08-15 21:15:44 / 修改时间：23:54:02" itemprop="dateCreated datePublished" datetime="2022-08-15T21:15:44+08:00">2022-08-15</time>
     </span>
 
   
@@ -231,6 +231,8 @@
 <li><p>通过sublime text3 结合正则匹配进行搜索定位</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">\b(system|passthru|pcntl_exec|shell_exec|escapeshellcmd|exec)\s&#123;0,10&#125;\(.</span><br><span class="line">&#123;0,40&#125;\$\w&#123;1,20&#125;((\[[&quot;&#x27;]|\[)\$&#123;0,1&#125;[\w\[\]&quot;&#x27;]&#123;0,30&#125;)&#123;0,1&#125;</span><br></pre></td></tr></table></figure></li>
 </ul>
+<span id="more"></span>
+
 <h3 id="审计报告"><a href="#审计报告" class="headerlink" title="审计报告"></a>审计报告</h3>  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">1、漏洞所在位置，漏洞描述</span><br><span class="line">在 admin/ping.php 第27行，存在命令执行漏洞</span><br><span class="line">2、漏洞危害</span><br><span class="line">执行任意命令</span><br><span class="line">漏洞验证过程：</span><br><span class="line">127.0.0.1 | whoami</span><br><span class="line">127.0.0.1 | echo &quot;&lt;?php phpinfo();?&gt;&quot; &gt;shell.php</span><br><span class="line">3、修复建议</span><br><span class="line">1.严格控制该功能访问权限，建议高权限才能访问。</span><br><span class="line">2.在满足业务需求的情况下，可以设置白名单，可使用escapeshellcmd()以及escapeshellarg()函数进</span><br><span class="line">行过滤，命令直接写死在代码中更好。</span><br><span class="line">3.给命令及代码执行功能设置独立密码。</span><br><span class="line">4.代码执行功能限制脚本可访问lou的路径。</span><br><span class="line">5.在满足需求的情况下限制当前执行命令的系统用户权限。</span><br></pre></td></tr></table></figure>
 
 <h2 id="02-文件包含"><a href="#02-文件包含" class="headerlink" title="02-文件包含"></a>02-文件包含</h2><h3 id="审计思路-1"><a href="#审计思路-1" class="headerlink" title="审计思路"></a>审计思路</h3><ul>
